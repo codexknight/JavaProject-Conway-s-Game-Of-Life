@@ -2,6 +2,7 @@ package org.example;
 
 import javafx.application.Application;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -35,6 +36,8 @@ public class App extends Application {
         fastCheckbox = new CheckBox("Fast");
 
         HBox bottom = new HBox(20, stopGoButton, fastCheckbox, nextButton, randomButton, clearButton, quitButton);
+        bottom.setStyle("-fx-padding:8px; -fx-border-color:darkgray; -fx-border-width:3px 0 0 0");
+        bottom.setAlignment(Pos.CENTER);
 
         BorderPane root = new BorderPane();
         root.setBottom(bottom);
