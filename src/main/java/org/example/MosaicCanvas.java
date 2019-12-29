@@ -15,7 +15,7 @@ public class MosaicCanvas extends Canvas {
 
     private boolean alwaysDrawGrouting;
 
-    private boolean use3D = true;
+    private boolean use3D = false;
 
     private boolean autopaint = true;
 
