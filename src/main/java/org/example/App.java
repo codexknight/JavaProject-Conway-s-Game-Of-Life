@@ -37,7 +37,9 @@ public class App extends Application {
 //****************************************************
         stopGoButton = new Button("Start");
         nextButton = new Button("One Step");
+
         randomButton = new Button("Random Fill");
+        randomButton.setOnAction(e -> doRandom());
 
         clearButton = new Button("Clear");
         clearButton.setOnAction(e->{
@@ -64,6 +66,15 @@ public class App extends Application {
         stage.setTitle("Game of Life");
         stage.setResizable(false);
         stage.show();
+    }
+
+    private void doRandom() {
+        for (int r = 0; r < GRID_SIZE; r++) {
+            for (int c = 0; c < GRID_SIZE; c++) {
+                aliveBoolArray[r][c] = (Math.random() < 0.25);
+            }
+        }
+        showBoard();
     }
 
     private void showBoard() {
