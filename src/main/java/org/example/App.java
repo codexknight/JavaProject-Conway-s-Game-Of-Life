@@ -22,9 +22,9 @@ public class App extends Application {
 
     private static final int GRID_SIZE = 100;
 
-    private MosaicCanvas lifeBoard;
+    private MosaicCanvas lifeBoardMosaicCanvasObj;
 
-    private boolean[][] alive;
+    private boolean[][] aliveBoolArray;
 
 
 //////////////////////////////////////////////////////
@@ -32,8 +32,8 @@ public class App extends Application {
     public void start(Stage stage) {
 //****************************************************
         int cellSize = 800 / GRID_SIZE; //8px
-        lifeBoard = new MosaicCanvas(GRID_SIZE, GRID_SIZE, cellSize, cellSize);
-        lifeBoard.setStyle("-fx-border-color:darkgray; -fx-border-width:3px");
+        lifeBoardMosaicCanvasObj = new MosaicCanvas(GRID_SIZE, GRID_SIZE, cellSize, cellSize);
+        lifeBoardMosaicCanvasObj.setStyle("-fx-border-color:darkgray; -fx-border-width:3px");
 //****************************************************
         stopGoButton = new Button("Start");
         nextButton = new Button("One Step");
@@ -41,7 +41,7 @@ public class App extends Application {
 
         clearButton = new Button("Clear");
         clearButton.setOnAction(e->{
-            alive = new boolean[GRID_SIZE][GRID_SIZE];
+            aliveBoolArray = new boolean[GRID_SIZE][GRID_SIZE];
             showBoard();
         });
 
@@ -56,7 +56,7 @@ public class App extends Application {
 
         BorderPane root = new BorderPane();
         root.setBottom(bottom);
-        root.setCenter(lifeBoard);
+        root.setCenter(lifeBoardMosaicCanvasObj);
 
         Scene scene = new Scene(root);
 
@@ -67,17 +67,17 @@ public class App extends Application {
     }
 
     private void showBoard() {
-        lifeBoard.setAutopaint(false);
+        lifeBoardMosaicCanvasObj.setAutopaint(false);
         for (int r = 0; r < GRID_SIZE; r++) {
             for (int c = 0; c < GRID_SIZE; c++) {
-                if (alive[r][c]) {
-                    lifeBoard.setColor(r, c, Color.WHITE);
+                if (aliveBoolArray[r][c]) {
+                    lifeBoardMosaicCanvasObj.setColor(r, c, Color.WHITE);
                 } else {
-                    lifeBoard.setColor(r, c, null);
+                    lifeBoardMosaicCanvasObj.setColor(r, c, null);
                 }
             }
         }
-        lifeBoard.setAutopaint(true);
+        lifeBoardMosaicCanvasObj.setAutopaint(true);
     }
 
     public static void main(String[] args) {

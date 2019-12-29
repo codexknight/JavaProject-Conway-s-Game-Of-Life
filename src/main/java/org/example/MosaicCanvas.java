@@ -19,7 +19,7 @@ public class MosaicCanvas extends Canvas {
 
     private boolean autopaint = true;
 
-    private Color[][] grid; //2D array with size of rows*columns
+    private Color[][] grid2DColor; //2D array with size of rows*columns
 
     private GraphicsContext g; //the graphicsContext obj associated with the canvas
 //***********************************************************************************
@@ -41,7 +41,7 @@ public class MosaicCanvas extends Canvas {
         }
         prefBlockHeight = Math.max(prefBlockHeight, 5);//at least 5
         prefBlockWidth = Math.max(prefBlockWidth, 5);
-        grid = new Color[rows][columns];
+        grid2DColor = new Color[rows][columns];
         defaultColor = Color.BLACK;
         groutingColor = Color.GRAY;
         alwaysDrawGrouting = false;
@@ -99,7 +99,7 @@ public class MosaicCanvas extends Canvas {
         int x = (int) Math.round(colWidth * col);
         int w = Math.max(1, (int) Math.round(colWidth * (col + 1)) - x);
 
-        Color c = grid[row][col];
+        Color c = grid2DColor[row][col];
         g.setFill((c == null) ? defaultColor : c);
         if (groutingColor == null || (c == null && !alwaysDrawGrouting)) {
             if (!use3D || c == null) {
@@ -138,7 +138,7 @@ public class MosaicCanvas extends Canvas {
 
     public void setColor(int r, int c, Color color) {
         if (r >= 0 && r < rows && c >= 0 && c < columns) {
-            grid[r][c] = color;
+            grid2DColor[r][c] = color;
             drawSquare(r, c);
         }
     }
