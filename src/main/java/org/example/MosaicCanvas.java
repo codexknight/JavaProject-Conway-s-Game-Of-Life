@@ -181,6 +181,40 @@ public class MosaicCanvas extends Canvas {
         }
 
     }
+
+    public int yCoordToRowNumber(double y) {
+        if (y < 0) {
+            return -1;
+        }
+        double rowHeight = getHeight() / rows;
+        int row = (int) (y / rowHeight);
+        if (row >= rows) {
+            return rows;
+        } else {
+            return row;
+        }
+    }
+
+    public int xCoordToColNumber(double x) {
+        if (x < 0) {
+            return -1;
+        }
+        double colWidth = getWidth() / columns;
+        int col = (int) (x / colWidth);
+        if (col >= columns) {
+            return columns;
+        } else {
+            return col;
+        }
+    }
+
+    public int getRowCount() {
+        return rows;
+    }
+
+    public int getColumnCount() {
+        return columns;
+    }
 }
 
 

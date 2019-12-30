@@ -4,6 +4,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -25,9 +27,10 @@ public class App extends Application {
     private MosaicCanvas lifeBoardMosaicCanvasObj;
 
     private boolean[][] aliveBoolArray;
+    private boolean animationIsRunning;
 
 
-//////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
     @Override
     public void start(Stage stage) {
 //****************************************************
@@ -38,6 +41,9 @@ public class App extends Application {
         if (cellSize < 5) {
             lifeBoardMosaicCanvasObj.setGroutingColor(null);
         }
+        lifeBoardMosaicCanvasObj.setOnMousePressed(e -> mousePressed(e));
+        lifeBoardMosaicCanvasObj.setOnMouseDragged(e -> mouseDragged(e));
+
 //****************************************************
         stopGoButton = new Button("Start");
         nextButton = new Button("One Step");
@@ -78,6 +84,30 @@ public class App extends Application {
         stage.setTitle("Game of Life");
         stage.setResizable(false);
         stage.show();
+    }
+
+    private void mousePressed(MouseEvent e) {
+        if (animationIsRunning) {
+            return;
+        }
+        int row = lifeBoardMosaicCanvasObj.yCoordToRowNumber(e.getY());
+        int col = lifeBoardMosaicCanvasObj.xCoordToColNumber(e.getX());
+        if (row >= 0 && row < lifeBoardMosaicCanvasObj.getRowCount()
+                && col >= 0 && col < lifeBoardMosaicCanvasObj.getColumnCount()) {
+            if (e.getButton() == MouseButton.SECONDARY) {
+                lifeBoardMosaicCanvasObj.setColor(row, col, null);
+                aliveBoolArray[row][col] = false;
+            } else {
+                lifeBoardMosaicCanvasObj.setColor(row, col, Color.WHITE);
+                aliveBoolArray[row][col] = true;
+            }
+
+        }
+    }
+
+    private void mouseDragged(MouseEvent event) {
+
+        mousePressed(event);
     }
 
     private void doRandom() {
