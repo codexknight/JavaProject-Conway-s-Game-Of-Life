@@ -15,7 +15,7 @@ public class MosaicCanvas extends Canvas {
 
     private boolean alwaysDrawGrouting;
 
-    private boolean use3D = false;
+    private boolean use3D = true;
 
     private boolean autopaint = true;
 
@@ -168,6 +168,18 @@ public class MosaicCanvas extends Canvas {
         if (autopaint) {
             forceRedraw();
         }
+    }
+
+    public void setUse3D(boolean use3D) {
+        this.use3D = use3D;
+    }
+
+    public void setGroutingColor(Color c) {
+        if (c == null || !c.equals(groutingColor)) {
+            groutingColor = c;
+            forceRedraw();
+        }
+
     }
 }
 

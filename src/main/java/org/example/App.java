@@ -34,6 +34,10 @@ public class App extends Application {
         int cellSize = 800 / GRID_SIZE; //8px
         lifeBoardMosaicCanvasObj = new MosaicCanvas(GRID_SIZE, GRID_SIZE, cellSize, cellSize);
         lifeBoardMosaicCanvasObj.setStyle("-fx-border-color:darkgray; -fx-border-width:3px");
+        lifeBoardMosaicCanvasObj.setUse3D(false);
+        if (cellSize < 5) {
+            lifeBoardMosaicCanvasObj.setGroutingColor(null);
+        }
 //****************************************************
         stopGoButton = new Button("Start");
         nextButton = new Button("One Step");
@@ -59,6 +63,14 @@ public class App extends Application {
         BorderPane root = new BorderPane();
         root.setBottom(bottom);
         root.setCenter(lifeBoardMosaicCanvasObj);
+
+        aliveBoolArray = new boolean[GRID_SIZE][GRID_SIZE];
+        aliveBoolArray[49][49] = true;
+        aliveBoolArray[50][49] = true;
+        aliveBoolArray[51][49] = true;
+        aliveBoolArray[49][50] = true;
+        aliveBoolArray[50][48] = true;
+        showBoard();
 
         Scene scene = new Scene(root);
 
