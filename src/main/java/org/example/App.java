@@ -66,6 +66,10 @@ public class App extends Application {
 
         fastCheckbox = new CheckBox("Fast");
         stopGoButton.setOnAction(e->doStopGo());
+        nextButton.setOnAction(e->{
+            doFrame();
+            showBoard();
+        });
 
 //*****************************************************
         timer = new AnimationTimer() {
