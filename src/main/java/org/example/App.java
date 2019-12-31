@@ -1,5 +1,8 @@
 package org.example;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -29,6 +32,7 @@ public class App extends Application {
     private boolean[][] aliveBoolArray;
     private boolean animationIsRunning;
 
+    private AnimationTimer timer;
 
     //////////////////////////////////////////////////////
     @Override
@@ -61,7 +65,23 @@ public class App extends Application {
         quitButton.setOnAction(e -> System.exit(0));
 
         fastCheckbox = new CheckBox("Fast");
+        stopGoButton.setOnAction(e->doStopGo());
+
 //*****************************************************
+        timer = new AnimationTimer() {
+            final double oneTSec = 1e8;
+            long previousTime;
+
+            @Override
+            public void handle(long time) {
+                if ((time - previousTime) > 0.975 * oneTSec || fastCheckbox.isSelected()) {
+                    doFrame();
+                    showBoard();
+                    previousTime = time;
+                }
+            }
+
+        };
         HBox bottom = new HBox(20, stopGoButton, fastCheckbox, nextButton, randomButton, clearButton, quitButton);
         bottom.setStyle("-fx-padding:8px; -fx-border-color:darkgray; -fx-border-width:3px 0 0 0");
         bottom.setAlignment(Pos.CENTER);
@@ -84,6 +104,69 @@ public class App extends Application {
         stage.setTitle("Game of Life");
         stage.setResizable(false);
         stage.show();
+    }
+
+    private void doStopGo() {
+        if (animationIsRunning) {
+            timer.stop();
+            clearButton.setDisable(false);
+            randomButton.setDisable(false);
+            nextButton.setDisable(false);
+            stopGoButton.setText("Start");
+            animationIsRunning = false;
+        } else {
+            timer.start();
+            clearButton.setDisable(true);
+            randomButton.setDisable(true);
+            nextButton.setDisable(true);
+            stopGoButton.setText("Stop");
+            animationIsRunning = true;
+        }
+    }
+
+    private void doFrame() {
+        boolean[][] newBoard = new boolean[GRID_SIZE][GRID_SIZE];
+        for (int r = 0; r < GRID_SIZE; r++) {
+            int above, below;
+            int right, left;
+            above = r > 0 ? r - 1 : GRID_SIZE - 1;
+            below = r < GRID_SIZE - 1 ? r + 1 : 0;
+            for (int c = 0; c < GRID_SIZE; c++) {
+                left = c > 0 ? c - 1 : GRID_SIZE - 1;
+                right = c < GRID_SIZE - 1 ? c + 1 : 0;
+                int n = 0;
+                if (aliveBoolArray[above][left]) {
+                    n++;
+                }
+                if (aliveBoolArray[above][c]) {
+                    n++;
+                }
+                if (aliveBoolArray[above][right]) {
+                    n++;
+                }
+                if (aliveBoolArray[r][left]) {
+                    n++;
+                }
+                if (aliveBoolArray[r][right]) {
+                    n++;
+                }
+                if (aliveBoolArray[below][left]) {
+                    n++;
+                }
+                if (aliveBoolArray[below][c]) {
+                    n++;
+                }
+                if (aliveBoolArray[below][right]) {
+                    n++;
+                }
+                if (n == 3 || (aliveBoolArray[r][c] && n == 2)) {
+                    newBoard[r][c] = true;
+                } else {
+                    newBoard[r][c] = false;
+                }
+            }
+        }
+        aliveBoolArray = newBoard;
     }
 
     private void mousePressed(MouseEvent e) {
